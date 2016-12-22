@@ -13,7 +13,8 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({System.class, HelloApp.class})
 public class HelloAppTest {
-
+/*
+*/
     @Test
     public void testMain() {
         String[] args = {"1"};
