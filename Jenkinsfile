@@ -36,8 +36,5 @@ node {
      }
    }   
     
-    stage('Merge')
-    {
-        bat ("\"${tool 'Git'}\" push origin HEAD:master -f")
-    }
+    setGitHubPullRequestStatus context: '', message: 'The build is complete', state: 'SUCCESS'
 }
