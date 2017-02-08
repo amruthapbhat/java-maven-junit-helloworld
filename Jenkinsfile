@@ -1,5 +1,5 @@
-properties([$class: 'GhprbTrigger', adminlist :'amruthapbhat',
-whitelist:'you@you.com', orgslist: 'my_github_org' cron, :'* * * * *', triggerPhrase:'Ok to Test'])
+properties([$class: 'GhprbTrigger', adminlist:'amruthapbhat',
+whitelist:'you@you.com', orgslist: 'my_github_org', cron:'* * * * *', triggerPhrase:'Ok to Test'])
 
 
 node {
