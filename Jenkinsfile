@@ -1,4 +1,6 @@
- properties([[$class: 'GitLabConnectionProperty', gitLabConnection: ''], [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], pipelineTriggers([[$class: 'GitHubPRTrigger', events: [[$class: 'GitHubPROpenEvent']], spec: '* * * * *', triggerMode: 'CRON']])])
+properties([$class: 'PipelineTriggersJobProperty', triggers:[adminlist :'amruthapbhat',
+whitelist:'you@you.com', orgslist: 'my_github_org' cron :'* * * * *', triggerPhrase:'Ok to Test']])
+
 node {
    def mvnHome
    def scannerHome
