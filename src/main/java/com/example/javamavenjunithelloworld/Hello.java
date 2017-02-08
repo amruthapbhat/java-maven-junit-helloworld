@@ -12,7 +12,7 @@ public class Hello {
         }
         this.times = (short) times;
     }
-
+//Testing
     public void sayHello(PrintStream printer) {
         for (short i = 0; i < times; i++) {
             printer.println(HELLO);
