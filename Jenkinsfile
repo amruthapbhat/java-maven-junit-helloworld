@@ -1,4 +1,4 @@
-properties([$class: 'PipelineTriggersJobProperty', triggers:[adminlist: 'amruthapbhat',
+properties([$class: 'jenkins.model.PipelineTriggersJobProperty', triggers:[adminlist: 'amruthapbhat',
 whitelist: 'you@you.com', orgslist: 'my_github_org', cron: '* * * * *', triggerPhrase: 'Ok to Test']])
 
 node {
