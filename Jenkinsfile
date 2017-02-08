@@ -38,6 +38,6 @@ node {
     
     stage('Merge')
     {
-        bat "\"${tool 'Git'}\" push origin HEAD:master -f"
+        bat ("\"${tool 'Git'}\" push origin HEAD:master -f")
     }
 }
