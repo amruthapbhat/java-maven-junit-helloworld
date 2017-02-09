@@ -29,12 +29,12 @@ node {
          bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean install/)      
    }
    
-   stage ('Sonar Analysis') {
+   //stage ('Sonar Analysis') {
    //Running Sonar Analysis
-   withSonarQubeEnv {
-   bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=./)
-     }
-   }   
+   //withSonarQubeEnv {
+   //bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=./)
+     //}
+   //}   
     
     setGitHubPullRequestStatus context: '', message: 'The build is complete', state: 'SUCCESS'
 }
