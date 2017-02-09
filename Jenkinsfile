@@ -34,7 +34,14 @@ node {
    //withSonarQubeEnv {
    //bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=./)
      //}
-   //}   
+   //}  
+    
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'MyID', usernameVariable: 
+                      'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+
+    sh("git tag -a some_tag -m 'Jenkins'")
+    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> --tags')
+}
     
     setGitHubPullRequestStatus context: '', message: 'The build is complete', state: 'SUCCESS'
 }
