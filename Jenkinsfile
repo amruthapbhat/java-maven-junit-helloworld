@@ -11,7 +11,7 @@ properties(
 
 node {
    def mvnHome
-   def scannerHome
+   //def scannerHome
    
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
@@ -21,7 +21,7 @@ node {
       // ** NOTE: This 'M3' Maven tool must be configured
       // **       in the global configuration.           
       mvnHome = tool 'Maven'
-      scannerHome = tool 'Sonar'
+     // scannerHome = tool 'Sonar'
    }
          
    stage('Build') {
