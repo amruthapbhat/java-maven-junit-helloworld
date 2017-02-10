@@ -1,7 +1,17 @@
- properties([[$class: 'GitLabConnectionProperty', gitLabConnection: ''], [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], pipelineTriggers([[$class: 'GitHubPRTrigger', events: [[$class: 'GitHubPROpenEvent']], spec: '* * * * *', triggerMode: 'CRON']])])
+properties(
+    [
+        [
+            $class: 'BuildDiscarderProperty',
+            strategy: [$class: 'LogRotator', numToKeepStr: '10']
+        ],
+        pipelineTriggers([cron('H * * * *')]),
+    ]
+)
+
+
 node {
    def mvnHome
-   def scannerHome
+   //def scannerHome
    
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
@@ -11,7 +21,7 @@ node {
       // ** NOTE: This 'M3' Maven tool must be configured
       // **       in the global configuration.           
       mvnHome = tool 'Maven'
-      scannerHome = tool 'Sonar'
+     // scannerHome = tool 'Sonar'
    }
          
    stage('Build') {
@@ -24,5 +34,10 @@ node {
    withSonarQubeEnv {
    bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=./)
      }
-   }   
+   }      
+   
+    if (env.BRANCH_NAME == 'master') {
+    build 'master'
+}
+    
 }
