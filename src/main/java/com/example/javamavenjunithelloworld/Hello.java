@@ -1,6 +1,6 @@
 package com.example.javamavenjunithelloworld;
 import java.io.PrintStream;
-
+//testing
 public class Hello {
     static final String HELLO = "Hello!";
     public static final int MAXIMUM_AMOUNT_OF_TIMES = 20;
