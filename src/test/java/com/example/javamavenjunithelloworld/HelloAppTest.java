@@ -19,7 +19,7 @@ public class HelloAppTest {
         String[] args = {"1"};
         HelloApp.main(args);
     }
-// Testing Webhooks with jenkins adn github
+// Testing Webhooks with jenkins adn github with new build
     @Test
     public void testWrongArgument() {
         PowerMockito.mockStatic(System.class);
