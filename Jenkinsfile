@@ -29,19 +29,15 @@ node {
          bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean install/)      
    }
    
-   //stage ('Sonar Analysis') {
+   stage ('Sonar Analysis') {
    //Running Sonar Analysis
-   //withSonarQubeEnv {
-   //bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=./)
-     //}
-   //}  
-    
-    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'MyID', usernameVariable: 
-                      'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-
-    sh("git tag -a some_tag -m 'Jenkins'")
-    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> --tags')
+   withSonarQubeEnv {
+   bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=./)
+     }
+   }      
+   
+    if (env.BRANCH_NAME == 'master') {
+    build 'master'
 }
     
-    setGitHubPullRequestStatus context: '', message: 'The build is complete', state: 'SUCCESS'
 }
