@@ -41,8 +41,8 @@ node {
         branches: [[name: 'refs/heads/master']],
         userRemoteConfigs: [[
             name: 'origin',
-            refspec: 'pull-requests/1/from',
-            url: path
+            refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
+            //url: path
         ]],
         extensions: [
         [
