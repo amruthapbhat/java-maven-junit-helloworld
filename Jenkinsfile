@@ -59,7 +59,7 @@ node {
             localBranch: 'master'
         ]]
     ])
-    bat 'git log -n 10 --graph --pretty=oneline --abbrev-commit --all --decorate=full'
+   // bat 'git log -n 10 --graph --pretty=oneline --abbrev-commit --all --decorate=full'
    
    // if (env.BRANCH_NAME == 'master') {
     //build 'master'
