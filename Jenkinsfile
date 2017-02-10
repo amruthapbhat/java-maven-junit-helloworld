@@ -38,6 +38,6 @@ node {
    
    // if (env.BRANCH_NAME == 'master') {
     //build 'master'
-}
+//}
     
 }
