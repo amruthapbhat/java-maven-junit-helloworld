@@ -34,7 +34,32 @@ node {
    withSonarQubeEnv {
    bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=. /)
      }
-   }      
+   }  
+    
+    checkout([
+        $class: 'GitSCM',
+        branches: [[name: 'refs/heads/master']],
+        userRemoteConfigs: [[
+            name: 'origin',
+            refspec: 'pull-requests/1/from',
+            url: path
+        ]],
+        extensions: [
+        [
+            $class: 'PreBuildMerge',
+            options: [
+                fastForwardMode: 'NO_FF',
+                mergeRemote: 'origin',
+                mergeStrategy: 'MergeCommand.Strategy',
+                mergeTarget: 'master'
+            ]
+        ],
+        [
+            $class: 'LocalBranch',
+            localBranch: 'master'
+        ]]
+    ])
+    bat 'git log -n 10 --graph --pretty=oneline --abbrev-commit --all --decorate=full'
    
    // if (env.BRANCH_NAME == 'master') {
     //build 'master'
