@@ -11,7 +11,7 @@ properties(
 
 node {
    def mvnHome
-   //def scannerHome
+   def scannerHome
    
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
