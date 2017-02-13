@@ -36,7 +36,7 @@ node {
      }
    }  
     
-    checkout([
+    /*checkout([
         $class: 'GitSCM',
         branches: [[name: 'refs/heads/TestingMP']],
         userRemoteConfigs: [[
@@ -65,4 +65,19 @@ node {
     //build 'master'
 //}
     
+}*/
+    
+  stage("Merging Pull Request") {
+  withCredentials([usernamePassword(credentialsId: 'my_cred_id' usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+
+  // use date for tag
+  def tag = new Date().format("yyyyMMddHHmm")
+
+  // configure the git credentials, these are cached in RAM for several minutes to use
+  // this is required until https://issues.jenkins-ci.org/browse/JENKINS-28335 is resolved upstream
+  sh "echo 'protocol=https\nhost=<git-host-goes-here>\nusername=${GIT_USERNAME}\npassword=${GIT_PASSWORD}\n\n' | git credential approve "
+
+  bat "git tag -a ${tag} -m '${USER} tagging'"
+  bat "git push --tags"
+  }
 }
