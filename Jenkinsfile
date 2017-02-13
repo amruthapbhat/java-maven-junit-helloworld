@@ -33,45 +33,11 @@ node {
    withSonarQubeEnv {
    bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=. /)
      }
-   }  
-    
-    /*checkout([
-        $class: 'GitSCM',
-        branches: [[name: 'refs/heads/TestingMP']],
-        userRemoteConfigs: [[
-            name: 'origin',
-            refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
-            //url: path
-        ]],
-        extensions: [
-        [
-            $class: 'PreBuildMerge',
-            options: [
-                fastForwardMode: 'NO_FF',
-                mergeRemote: 'origin',
-                mergeStrategy: 'MergeCommand.Strategy',
-                mergeTarget: 'master'
-            ]
-        ],
-        [
-            $class: 'LocalBranch',
-            localBranch: 'master'
-        ]]
-    ])
-   // bat 'git log -n 10 --graph --pretty=oneline --abbrev-commit --all --decorate=full'
-   
-   // if (env.BRANCH_NAME == 'master') {
-    //build 'master'
-//}
-    
-}*/
+   }     
+
     
   stage("Merging Pull Request") {
-  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ca9b112d-19c3-491c-8e6d-23ec20cc5290', usernameVariable: 'GIT_USERNAME',
-                    passwordVariable: 'GIT_PASSWORD']]) {
-
-    bat("git tag -a som_tag -m 'Jenkins'")
-    bat('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO>')
-}
+  bat "/"${tool 'Git'}\" commit -am \"Merged pull request\""
+   bat "/"${tool 'Git'}\" push origin HEAD:master -f"
 }
 }
