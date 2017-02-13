@@ -71,7 +71,7 @@ node {
                     passwordVariable: 'GIT_PASSWORD']]) {
 
     bat("git tag -a some_tag -m 'Jenkins'")
-    bat('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> --tags')
+    bat('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO>')
 }
 }
 }
