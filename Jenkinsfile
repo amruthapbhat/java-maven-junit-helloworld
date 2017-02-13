@@ -70,7 +70,7 @@ node {
   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ca9b112d-19c3-491c-8e6d-23ec20cc5290', usernameVariable: 'GIT_USERNAME',
                     passwordVariable: 'GIT_PASSWORD']]) {
 
-    bat("git tag -a some_tag -m 'Jenkins'")
+    bat("git tag -a som_tag -m 'Jenkins'")
     bat('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO>')
 }
 }
