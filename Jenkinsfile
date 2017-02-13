@@ -68,16 +68,9 @@ node {
 }*/
     
   stage("Merging Pull Request") {
-  withCredentials([usernamePassword(credentialsId: 'my_cred_id' usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'MyID', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
 
-  // use date for tag
-  def tag = new Date().format("yyyyMMddHHmm")
-
-  // configure the git credentials, these are cached in RAM for several minutes to use
-  // this is required until https://issues.jenkins-ci.org/browse/JENKINS-28335 is resolved upstream
-  bat "echo 'protocol=https\nhost=<git-host-goes-here>\nusername=${GIT_USERNAME}\npassword=${GIT_PASSWORD}\n\n' | git credential approve "
-
-  bat "git tag -a ${tag} -m '${USER} tagging'"
-  bat "git push --tags"
-  }
+    sh("git tag -a some_tag -m 'Jenkins'")
+    sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> --tags')
+}
 }
