@@ -68,7 +68,7 @@ node {
 }*/
     
   stage("Merging Pull Request") {
-  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'MyID', usernameVariable: 'GIT_USERNAME',
+  withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ca9b112d-19c3-491c-8e6d-23ec20cc5290', usernameVariable: 'GIT_USERNAME',
                     passwordVariable: 'GIT_PASSWORD']]) {
 
     bat("git tag -a some_tag -m 'Jenkins'")
