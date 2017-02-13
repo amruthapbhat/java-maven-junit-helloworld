@@ -8,7 +8,6 @@ properties(
     ]
 )
 
-
 node {
    def mvnHome
    def scannerHome
