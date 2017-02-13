@@ -37,7 +37,7 @@ node {
 
     
   stage("Merging Pull Request") {
-  bat "/"${tool 'Git'}\" commit -am \"Merged pull request\""
-   bat "/"${tool 'Git'}\" push origin HEAD:master -f"
+  bat "/"${tool 'Git'}/" commit -am /"Merged pull request/""
+   bat "/"${tool 'Git'}/" push origin HEAD:master -f"
 }
 }
