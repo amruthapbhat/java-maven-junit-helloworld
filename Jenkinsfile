@@ -37,7 +37,7 @@ node {
 
    //Testing merge 
   stage("Merging Pull Request") {
-  bat "\"${tool 'Git'}\" commit -am \"Updated version number\""
+ // bat "\"${tool 'Git'}\" commit -am \"Updated version number\""
     bat "\"${tool 'Git'}\" push origin HEAD:master -f"
 }
 }
