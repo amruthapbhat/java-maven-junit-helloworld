@@ -34,3 +34,4 @@ node {
    bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=. /)
      }
    } 
+}
