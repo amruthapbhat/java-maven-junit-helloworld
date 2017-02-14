@@ -11,8 +11,8 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 /* This is to test eclipse
  chekcins into Github
+ Verification of pipeline changes
 */
-
 
 public class HelloTest {
 
