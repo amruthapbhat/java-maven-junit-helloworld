@@ -1,54 +1,48 @@
- properties([[$class: 'GitLabConnectionProperty', gitLabConnection: ''], [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false], pipelineTriggers([[$class: 'GitHubPRTrigger', events: [[$class: 'GitHubPROpenEvent']], spec: '* * * * *', triggerMode: 'CRON']])])
-node {
-def mvnHome
-   def scannerHome 
-
-   /* String path = '/tmp/jenkins/upstream-repo'
-    bat "move ${path}"
-    ws(path) {
-        bat 'git --version'
-        bat 'git init'
-        bat 'touch README.md; git add README.md; git commit -m "init"'
-        bat 'git checkout -b pull-requests/1/from'
-        bat 'touch file.txt; git add file.txt; git commit -m "Add file"'
-    }*/
-    // sh "git clone ${path} ."
-   // bat 'pwd; tree; ls;'
-    checkout([
-        $class: 'GitSCM',
-        branches: [[name: 'refs/heads/master']],
-        userRemoteConfigs: [[
-            name: 'origin',
-            refspec: 'pull-requests/1/from',
-            url: path
-        ]],
-        extensions: [
+properties(
+    [
         [
-            $class: 'PreBuildMerge',
-            options: [
-                fastForwardMode: 'NO_FF',
-                mergeRemote: 'origin',
-                mergeStrategy: 'MergeCommand.Strategy',
-                mergeTarget: 'master'
-            ]
+            $class: 'BuildDiscarderProperty',
+            strategy: [$class: 'LogRotator', numToKeepStr: '10']
         ],
-        [
-            $class: 'LocalBranch',
-            localBranch: 'master'
-        ]]
-    ])
-    bat 'git log -n 10 --graph --pretty=oneline --abbrev-commit --all --decorate=full'
-         
-  // stage('Build') {
-      // Run the maven build
-       //  bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean install/)      
- //  }
+        pipelineTriggers([cron('H * * * *')]),
+    ]
+)
+
+node {
+   def mvnHome
+   def scannerHome
    
-  // stage ('Sonar Analysis') {
+   stage('Preparation') { // for display purposes
+      // Get some code from a GitHub repository
+      checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'ca9b112d-19c3-491c-8e6d-23ec20cc5290', refspec: '+refs/pull/*:refs/remotes/origin/pr/*', url: 'https://github.com/amruthapbhat/java-maven-junit-helloworld']]])
+      
+      // Get the Maven tool.
+      // ** NOTE: This 'M3' Maven tool must be configured
+      // **       in the global configuration.           
+      mvnHome = tool 'Maven'
+     scannerHome = tool 'Sonar'
+   }
+         
+   stage('Build') {
+      // Run the maven build
+         bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean install/)      
+   }
+   
+   stage ('Sonar Analysis') {
    //Running Sonar Analysis
-  // withSonarQubeEnv {
- //  bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=./)
-     //}
- //  }  
- 
+   withSonarQubeEnv {
+   bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=. /)
+     }
+   }     
+
+   //Testing merge 
+  stage("Merging Pull Request") {
+   withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ca9b112d-19c3-491c-8e6d-23ec20cc5290', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+
+    bat("git tag -a V1.3 -m 'Jenkins'")
+    bat('git push origin master --tags')
+}
+ // bat "\"${tool 'Git'}\" commit -am \"Updated version number\""
+    //bat "\"${tool 'Git'}\" push origin HEAD:master -f"
+}
 }
