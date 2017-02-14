@@ -36,33 +36,10 @@ node {
      }
    }  
     
-    checkout([
-        $class: 'GitSCM',
-        branches: [[name: 'refs/heads/master']],
-        userRemoteConfigs: [[
-            name: 'origin',
-            refspec: '+refs/pull/*:refs/remotes/origin/pr/*',
-            //url: path
-        ]],
-        extensions: [
-        [
-            $class: 'PreBuildMerge',
-            options: [
-                fastForwardMode: 'NO_FF',
-                mergeRemote: 'origin',
-                mergeStrategy: 'MergeCommand.Strategy',
-                mergeTarget: 'master'
-            ]
-        ],
-        [
-            $class: 'LocalBranch',
-            localBranch: 'master'
-        ]]
-    ])
-    bat 'git log -n 10 --graph --pretty=oneline --abbrev-commit --all --decorate=full'
-   
-   // if (env.BRANCH_NAME == 'master') {
-    //build 'master'
-//}
+    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ca9b112d-19c3-491c-8e6d-23ec20cc5290', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+
+    sh("git tag -a V2.0 -m 'Jenkins'")
+    sh('git push origin master --tags')
+}
     
 }
