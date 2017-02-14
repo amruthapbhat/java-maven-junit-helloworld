@@ -34,12 +34,6 @@ node {
    withSonarQubeEnv {
    bat(/"${scannerHome}\bin\sonar-scanner" -Dsonar.projectKey=java-maven-junit-helloworld -Dsonar.sources=. /)
      }
-   }  
-    
-//Modified for testing
-withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'ca9b112d-19c3-491c-8e6d-23ec20cc5290', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
-    sh("git tag -a V2.0 -m 'Jenkins'")
-    sh('git push origin master --tags')
-}
+   }     
 
 }
